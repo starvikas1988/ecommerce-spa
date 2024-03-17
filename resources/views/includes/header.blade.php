@@ -94,7 +94,6 @@
 
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                      
                         <div class="d-flex m-3 me-0">
