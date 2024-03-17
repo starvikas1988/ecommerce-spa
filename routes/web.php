@@ -26,5 +26,5 @@ Route::post('/place-order', 'App\Http\Controllers\OrderController@placeOrder')->
 
 
 Route::get('/payment/success', [OrderController::class, 'paymentSuccess'])->name('payment.success');
-Route::get('/payment/failed', [OrderController::class, 'paymentFailed'])->name('payment.failed');
+Route::get('/payment/failed', [OrderController::class, 'paymentFailed'])->name('payment.cancel');
 

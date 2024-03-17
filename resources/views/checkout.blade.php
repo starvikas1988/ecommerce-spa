@@ -3,53 +3,54 @@
         <div class="container-fluid py-5">
             <div class="container py-5">
                 <h1 class="mb-4">Billing details</h1>
-                <form action="#">
+                <form action="{{route('place.order')}}" method="POST">
+                    @csrf
                     <div class="row g-5">
                         <div class="col-md-12 col-lg-6 col-xl-7">
                             <div class="row">
                                 <div class="col-md-12 col-lg-6">
                                     <div class="form-item w-100">
                                         <label class="form-label my-3">First Name<sup>*</sup></label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="first_name">
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-lg-6">
                                     <div class="form-item w-100">
                                         <label class="form-label my-3">Last Name<sup>*</sup></label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="last_name">
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="form-item">
                                 <label class="form-label my-3">Address <sup>*</sup></label>
-                                <input type="text" class="form-control" placeholder="House Number Street Name">
+                                <input type="text" name="address" class="form-control" placeholder="House Number Street Name">
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Town/City<sup>*</sup></label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="city" >
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Country<sup>*</sup></label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="country">
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="postal_code">
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Mobile<sup>*</sup></label>
-                                <input type="tel" class="form-control">
+                                <input type="tel" class="form-control" name="mobile_number">
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Email Address<sup>*</sup></label>
-                                <input type="email" class="form-control">
+                                <input type="email" class="form-control" name="email">
                             </div>
                            
                             <hr>
                            
                             <div class="form-item">
-                                <textarea name="text" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Order Notes (Optional)"></textarea>
+                                <textarea name="text" class="form-control" spellcheck="false" cols="30" rows="11" name="order_notes" placeholder="Order Notes (Optional)"></textarea>
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-6 col-xl-5">
@@ -101,6 +102,7 @@
                                             <td class="py-5"></td>
                                             <td class="py-5">
                                                 <div class="py-3 border-bottom border-top">
+                                                    <input type="hidden" name="amount" value="{{$mainTotal}}" />
                                                     <p class="mb-0 text-dark">${{$mainTotal}}</p>
                                                 </div>
                                             </td>
@@ -136,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                                <button type="button" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary" onclick="handleFormSubmission()">Place Order</button>
+                                <button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place Order</button>
                             </div>
                         </div>
                     </div>

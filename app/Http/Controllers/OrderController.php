@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Cart;
+use App\Models\Order;
 
 use PayPal\Api\Amount;
 use PayPal\Api\Payer;
@@ -31,8 +32,7 @@ class OrderController extends Controller
                 'log.LogEnabled' => true,
             ],
         ];
-        
-       // $paypalConfig = config('paypal');
+
         $this->apiContext = new ApiContext(new OAuthTokenCredential(
             $paypalConfig['client_id'],
             $paypalConfig['client_secret']
@@ -66,18 +66,24 @@ class OrderController extends Controller
     public function placeOrder(Request $request)
     {
         $id =1;
-        $order = Order::create($request->all());
-        $cartItems = Cart::where('user_id', $id)->get();
+       // dd($request);
+        $order = new Order();
+        $order->first_name = $request->first_name;
+        $order->last_name = $request->last_name;
+        $order->address = $request->address;
+        $order->city = $request->city;
+        $order->country = $request->country;
+        $order->postal_code = $request->postal_code;
+        $order->mobile_number = $request->mobile_number;
+        $order->email = $request->email;
+        $order->order_notes = $request->order_notes;
+        $order->amount = $request->amount;
+        $order->order_status = 1; 
+       
+        $order->save();
 
-        // Extract product IDs from cart items
-        $productIds = $cartItems->pluck('product_id')->toArray();
-
-        // Retrieve details of products associated with the cart items
-        $productsInCart = Product::whereIn('id', $productIds)->get();
-        $totalAmount = 0;
-        foreach ($productsInCart as $product){
-            $totalAmount += $product->price;
-        }
+        $totalAmount = $request->amount;
+        
         // Create payment
         $payment = new Payment();
         $payment->setIntent('sale');
@@ -96,6 +102,8 @@ class OrderController extends Controller
         $payment->setRedirectUrls($redirectUrls);
         $payment->setTransactions([$transaction]);
 
+        //dd($payment);
+
         try {
             $payment->create($this->apiContext);
             return redirect($payment->getApprovalLink());
@@ -111,6 +119,6 @@ class OrderController extends Controller
 
     public function paymentFailed()
     {
-        return view('thankyou');
+        return view('failed');
     }
 }
